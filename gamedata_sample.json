@@ -5,18 +5,30 @@
         "player_1": {
           "player_name": "Mark",
           "rounds": {
-            "id": 1,
-            "round_vp": 2,
-            "round_vp_total": 2,
-            "card_income": 2
-          },
-          "player_2": {
-            "player_name": "Chris",
-            "rounds": {
-              "id": 1,
+            "1": {
               "round_vp": 2,
               "round_vp_total": 2,
               "card_income": 2
+            },
+            "2": {
+              "round_vp": 2,
+              "round_vp_total": 4,
+              "card_income": 3
+            }
+          }
+        },
+        "player_2": {
+          "player_name": "Chris",
+          "rounds": {
+            "1": {
+              "round_vp": 2,
+              "round_vp_total": 2,
+              "card_income": 2
+            },
+            "2": {
+              "round_vp": 2,
+              "round_vp_total": 4,
+              "card_income": 3
             }
           }
         },
@@ -30,18 +42,30 @@
         "player_1": {
           "player_name": "Mark",
           "rounds": {
-            "id": 1,
-            "round_vp": 2,
-            "round_vp_total": 2,
-            "card_income": 2
-          },
-          "player_2": {
-            "player_name": "Chris",
-            "rounds": {
-              "id": 1,
+            "1": {
               "round_vp": 2,
               "round_vp_total": 2,
               "card_income": 2
+            },
+            "2": {
+              "round_vp": 2,
+              "round_vp_total": 4,
+              "card_income": 3
+            }
+          }
+        },
+        "player_2": {
+          "player_name": "Chris",
+          "rounds": {
+            "1": {
+              "round_vp": 2,
+              "round_vp_total": 2,
+              "card_income": 2
+            },
+            "2": {
+              "round_vp": 2,
+              "round_vp_total": 4,
+              "card_income": 3
             }
           }
         },
