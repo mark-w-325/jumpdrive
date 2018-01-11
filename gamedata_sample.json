@@ -31,11 +31,11 @@
               "card_income": 3
             }
           }
-        },
-        "winner": "Mark",
-        "winner_score": 52,
-        "rounds": 1
-      }
+        }
+      },
+      "winner": "Mark",
+      "winner_score": 52,
+      "rounds": 1
     },
     "2": {
       "players": {

@@ -1,6 +1,9 @@
 import sys
 import json
 from PyQt4 import QtCore, QtGui, uic
+import pprint
+
+pp = pprint.PrettyPrinter(indent=4)
 
 qtCreatorFile = "jumpdrive2.ui"
 playerFile = "players.json"
@@ -21,6 +24,11 @@ class MyApp(QtGui.QMainWindow, Ui_MainWindow):
         self.game_id = 1
         self.round = 1
         self.game_data = self.loadGameData()
+        self.game_started = False
+        self.winning_score = 50
+        self.winner_vp = 0
+        self.winner_name = None
+        self.winner_cards = 0
         
         self.cb_p1.clear()
         self.cb_p1.addItems(players_lst)
@@ -49,8 +57,10 @@ class MyApp(QtGui.QMainWindow, Ui_MainWindow):
         
         self.btn_add_players.clicked.connect(self.AddPlayer)
         self.btn_remove_player.clicked.connect(self.DeletePlayer)
+        # TODO: add self.btn_reset
         self.btn_start_game.clicked.connect(self.StartGame)
         self.btn_add_score.clicked.connect(self.AddScore)
+        self.btn_undo.clicked.connect(self.UndoScore)
 
     def _add_to_player_grid(self, players):
         if players == 1:
@@ -77,11 +87,6 @@ class MyApp(QtGui.QMainWindow, Ui_MainWindow):
         if self.nbr_players == 1:
             return
         self._add_to_player_grid(self.nbr_players)
-        self.nbr_players = self.player_name_grid.count()
-
-        # cb_boxes = self.findChildren(QtGui.QComboBox)
-        # for cb in cb_boxes:
-            # print cb.objectName(), cb.pos()
 
     def DeletePlayer(self):
         if self.nbr_players == 1:
@@ -101,33 +106,47 @@ class MyApp(QtGui.QMainWindow, Ui_MainWindow):
             sb_vp_widget[-1].hide()
             sb_card_widget[-1].hide()
             self.nbr_players -= 1
+            self.sb_nbr_players.setValue(self.nbr_players)
             
     def StartGame(self):
         max_game_id = int(max(self.game_data['games'], key=int))
         current_game_dict = self.game_data
         players = self.loadPlayers()
         if max_game_id == self.game_id:
-            current_game_dict['games'][str(self.game_id)].update(players)
-            self.game_data = current_game_dict
+            self.game_data['games'][str(self.game_id)].update(players)
         else:
             self.game_id = max_game_id + 1
-            current_game_dict['games'][str(self.game_id)] = players
-            self.game_data = current_game_dict
+            self.game_data['games'][str(self.game_id)] = players
+        self.game_started = True
             
     def AddScore(self):
-        orig_dict = self.game_data
-        temp_dict = orig_dict['games'][str(self.game_id)]['players']
-        nbr_players = len(temp_dict)
-        for i in range(1, nbr_players + 1):
+        vp_dict = dict()
+        if not self.game_started:
+            self.StartGame()
+        for i in range(1, self.nbr_players + 1):
             player = "p" + str(i)
             vp = self.getVPIncome(player)
             cards = self.getCardIncome(player)
-            temp_dict = self.update_player(temp_dict, player, self.round, rnd_vp=vp, rnd_cards=cards)
-        self.round += 1
-        print temp_dict
-            
+            player_data = self.update_player(self.game_data['games'][str(self.game_id)]['players'], player, self.round, rnd_vp=vp, rnd_cards=cards)
+            self.game_data['games'][str(self.game_id)]['players'] = player_data[0]
+            vp_dict[player] = player_data[1]
+        self._who_is_winning(vp_dict)
+        if self.winner_vp >= self.winning_score:
+            print "The winner is %s with %i victory points and %i card income" % (self.winner_name, self.winner_vp, self.winner_cards)
+        
+    def UndoScore(self):
+        round = self.round - 1
+        for i in range(1, self.nbr_players + 1):
+            player = "p" + str(i)
+            self.game_data['games'][str(self.game_id)]['players'][player]['rounds'].pop(str(round), None)
+        # TODO: reset self.winner variables if there is an undo
+        self.round = round
+        
+    def ResetGame(self):
+        self.game_data['games'].pop(str(self.game_id), None)
+        self.game_id -= 1
     
-    def getWidgets(self, name, cls=False):
+    def getWidgets(self, name):
         widgets = []
         for widget in QtGui.QApplication.allWidgets():
             if widget.objectName() == name:
@@ -137,12 +156,16 @@ class MyApp(QtGui.QMainWindow, Ui_MainWindow):
     def loadPlayers(self):
         widgets = (self.player_name_grid.itemAt(i).widget() for i in range(self.player_name_grid.count()))
         return_dict = dict.fromkeys(["players"], {})
+        players = 0
         for w in widgets:
             if isinstance(w, QtGui.QComboBox):
                 if str(w.currentText()) == "":
                     pass
                 else:
                     return_dict["players"].update({str(w.objectName())[-2:]: {"player_name": str(w.currentText()), "rounds": None}})
+                    players += 1
+        if players != self.nbr_players:
+            self.nbr_players = players
         return return_dict
         
     def loadGameData(self):
@@ -172,15 +195,22 @@ class MyApp(QtGui.QMainWindow, Ui_MainWindow):
         return total
         
     def update_player(self, data, player, rnd=1, rnd_vp=0, rnd_cards=0):
+        total_vp = rnd_vp
         if rnd == 1:
-            data[player].update({'rounds': {str(rnd): {'card_income': rnd_cards, 'round_vp': rnd_vp, 'round_vp_total': rnd_vp}}})
+            data[player].update({'rounds': {str(rnd): {'card_income': rnd_cards, 'round_vp': rnd_vp, 'round_vp_total': total_vp}}})
         else:
             total_vp = self.getPlayerTotalVP(data[player]['rounds'], rnd_vp)
             data[player]['rounds'][str(rnd)] = {'card_income': rnd_cards, 'round_vp': rnd_vp, 'round_vp_total': total_vp}
-        return data
+        return [data, {'player_name': data[player]['player_name'], 'vp': total_vp, 'cards': rnd_cards}]
+        
+    def _who_is_winning(self, data):
+        for k, v in data.items():
+            if v['vp'] >= self.winner_vp:
+                if v['cards'] >= self.winner_cards:
+                    self.winner_vp = v['vp']
+                    self.winner_name = v['player_name']
+                    self.winner_cards = v['cards']
             
-
-
 if __name__ == "__main__":
     app = QtGui.QApplication(sys.argv)
     window = MyApp()

@@ -242,7 +242,7 @@
          </property>
          <property name="font">
           <font>
-           <pointsize>12</pointsize>
+           <pointsize>24</pointsize>
           </font>
          </property>
          <property name="minimum">
@@ -262,7 +262,7 @@
          <property name="font">
           <font>
            <family>Meslo LG S for Powerline</family>
-           <pointsize>12</pointsize>
+           <pointsize>24</pointsize>
           </font>
          </property>
         </widget>
@@ -272,7 +272,7 @@
          <property name="font">
           <font>
            <family>Meslo LG S for Powerline</family>
-           <pointsize>12</pointsize>
+           <pointsize>24</pointsize>
           </font>
          </property>
         </widget>
@@ -282,7 +282,7 @@
          <property name="font">
           <font>
            <family>Meslo LG S for Powerline</family>
-           <pointsize>12</pointsize>
+           <pointsize>24</pointsize>
           </font>
          </property>
         </widget>
@@ -298,7 +298,7 @@
          <property name="font">
           <font>
            <family>Meslo LG S for Powerline</family>
-           <pointsize>12</pointsize>
+           <pointsize>24</pointsize>
           </font>
          </property>
         </widget>
@@ -397,7 +397,7 @@
          <property name="font">
           <font>
            <family>Meslo LG S for Powerline</family>
-           <pointsize>12</pointsize>
+           <pointsize>24</pointsize>
           </font>
          </property>
         </widget>
@@ -407,7 +407,7 @@
          <property name="font">
           <font>
            <family>Meslo LG S for Powerline</family>
-           <pointsize>12</pointsize>
+           <pointsize>24</pointsize>
           </font>
          </property>
         </widget>
@@ -417,7 +417,7 @@
          <property name="font">
           <font>
            <family>Meslo LG S for Powerline</family>
-           <pointsize>12</pointsize>
+           <pointsize>24</pointsize>
           </font>
          </property>
         </widget>
@@ -433,7 +433,7 @@
          <property name="font">
           <font>
            <family>Meslo LG S for Powerline</family>
-           <pointsize>12</pointsize>
+           <pointsize>24</pointsize>
           </font>
          </property>
         </widget>
@@ -470,8 +470,6 @@
      </item>
     </layout>
    </widget>
-   <zorder>gridLayoutWidget</zorder>
-   <zorder>gridLayoutWidget_7</zorder>
   </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">
