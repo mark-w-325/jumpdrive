@@ -133,6 +133,9 @@ class MyApp(QtGui.QMainWindow, Ui_MainWindow):
         self._who_is_winning(vp_dict)
         if self.winner_vp >= self.winning_score:
             print "The winner is %s with %i victory points and %i card income" % (self.winner_name, self.winner_vp, self.winner_cards)
+            self.EndGame()
+        else:
+            self.round += 1
         
     def UndoScore(self):
         round = self.round - 1
@@ -143,8 +146,19 @@ class MyApp(QtGui.QMainWindow, Ui_MainWindow):
         self.round = round
         
     def ResetGame(self):
+        # TODO: hide all elements again
         self.game_data['games'].pop(str(self.game_id), None)
         self.game_id -= 1
+        
+    def EndGame(self):
+        # TODO: handle game state, popup message, and save game data
+        self.game_data['games'][str(self.game_id)]["winner"] = self.winner_name
+        self.game_data['games'][str(self.game_id)]["winner_score"] = self.winner_vp
+        self.game_data['games'][str(self.game_id)]["rounds"] = self.round
+        with open(gameFile, 'w') as fp:
+                json.dump(self.game_data, fp, indent=4)
+        self.game_id += 1
+        self.game_started = False
     
     def getWidgets(self, name):
         widgets = []
