@@ -21,6 +21,9 @@ class MyApp(QtGui.QMainWindow, Ui_MainWindow):
         Ui_MainWindow.__init__(self)
         self.setupUi(self)
         
+        self.setGeometry(300, 300, 2000, 1000)
+        self.setWindowTitle('Jump Drive Point Tracker')
+        
         self.cb_p1.clear()
         self.cb_p1.addItems(players_lst)
         
@@ -150,6 +153,7 @@ class MyApp(QtGui.QMainWindow, Ui_MainWindow):
         for i in range(1, self.nbr_players + 1):
             player = "p" + str(i)
             self.game_data['games'][str(self.game_id)]['players'][player]['rounds'].pop(str(round), None)
+        self._update_line_edits(True)
         self.winner_vp = 0
         self.winner_name = None
         self.winner_cards = 0
@@ -246,7 +250,7 @@ class MyApp(QtGui.QMainWindow, Ui_MainWindow):
                     self.winner_cards = v['cards']
                     
     def _update_line_edits(self, undo=False):
-        #le_widget = self.getWidgets('te_' + player)
+        # TODO: Remove previous rounds score from boxes
         if not undo:
             for k, v in self.game_data['games'][str(self.game_id)]['players'].items():
                 player = k
@@ -259,6 +263,11 @@ class MyApp(QtGui.QMainWindow, Ui_MainWindow):
                 #if int(k) == self.round:
                     #msg = "%i (%i)" % (v['round_vp_total'], v['round_vp'])
                     #le_widget[-1].append(msg)
+        elif undo:
+            for k, v in self.game_data['games'][str(self.game_id)]['players'].items():
+                player = k
+                le_widget = self.getWidgets('te_' + player)
+                le_widget[-1].undo
 
 if __name__ == "__main__":
     app = QtGui.QApplication(sys.argv)
