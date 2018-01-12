@@ -267,7 +267,9 @@ class MyApp(QtGui.QMainWindow, Ui_MainWindow):
             for k, v in self.game_data['games'][str(self.game_id)]['players'].items():
                 player = k
                 le_widget = self.getWidgets('te_' + player)
-                le_widget[-1].undo
+                txt = str(le_widget[-1].toPlainText())
+                txt = '\n'.join(txt.splitlines()[:-1])
+                le_widget[-1].setText(txt)
 
 if __name__ == "__main__":
     app = QtGui.QApplication(sys.argv)
