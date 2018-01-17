@@ -1,11 +1,13 @@
 import sys
 import json
 from PyQt4 import QtCore, QtGui, uic
+import pyqtgraph as pg
+import numpy as np
 import pprint
 
 pp = pprint.PrettyPrinter(indent=4)
 
-qtCreatorFile = "jumpdrive2.ui"
+qtCreatorFile = "jumpdrive.ui"
 playerFile = "players.json"
 gameFile = "gamedata.json"
 
@@ -21,11 +23,13 @@ class MyApp(QtGui.QMainWindow, Ui_MainWindow):
         Ui_MainWindow.__init__(self)
         self.setupUi(self)
 
-        self.setGeometry(300, 300, 2000, 1000)
+        self.setGeometry(100, 100, 2250, 1250)
         self.setWindowTitle('Jump Drive Point Tracker')
 
         self.cb_p1.clear()
         self.cb_p1.addItems(players_lst)
+        
+        pg.setConfigOptions(antialias=True)
 
         self._setup_game()
 
@@ -42,17 +46,14 @@ class MyApp(QtGui.QMainWindow, Ui_MainWindow):
         self.round = 1
         self.game_data = self.loadGameData()
         self.game_id = int(max(self.game_data['games'], key=int))
-        print 'len', len(self.game_data['games'][str(self.game_id)])
         if self.game_id >= 1 and len(self.game_data['games'][str(self.game_id)]) > 0:
-            print 'here'
             self.game_id += 1
-        print self.game_id
-        print self.game_data
         self.game_started = False
         self.winning_score = 50
         self.winner_vp = 0
         self.winner_name = None
         self.winner_cards = 0
+        self.data_dict = dict()
 
         # Reset Number of Players spinbox
         self.sb_nbr_players.setValue(self.nbr_players)
@@ -97,6 +98,69 @@ class MyApp(QtGui.QMainWindow, Ui_MainWindow):
         self.sb_card_p3.hide()
         self.sb_card_p4.hide()
 
+        self.dataplot.clear()
+        labelStyle = {'color': '#FFF', 'size': '24pt'}
+        self.dataplot.setTitle("Victory Points Board", **labelStyle)
+        try:
+            self.legend.scene().removeItem(self.legend)
+        except Exception as e:
+            pass
+    
+    def _setup_plot(self):
+        #self.dataplot.addLegend()
+        self.legend =self.dataplot.addLegend()
+        labelStyle = {'color': '#FFF', 'font-size': '24pt'}
+        self.dataplot.getAxis('left').setLabel(text='Victory Points', **labelStyle)
+        self.dataplot.getAxis('bottom').setLabel(text='Round', **labelStyle)
+        self.dataplot.setYRange(0, 50)
+        self.dataplot.setXRange(0, self.round)
+        
+    def _plot_data(self, undo=False):
+        if undo:
+            self.dataplot.setXRange(0, self.round)
+        else:
+            self.dataplot.setXRange(0, self.round + 1)
+        for k, v in self.game_data['games'][str(self.game_id)]['players'].items():
+            for k2, v2 in v['rounds'].items():
+                dict_key = k + v['player_name']
+                if self.round == 1:
+                    self.data_dict[dict_key] = {k2: v2['round_vp_total']}
+                else:
+                    self.data_dict[dict_key].update({k2: v2['round_vp_total']})
+        for key in sorted(self.data_dict.iterkeys()):
+            points = list()
+            points.append(0)
+            for key2 in sorted(self.data_dict[key].iterkeys()):
+                points.append(self.data_dict[key][key2])
+            if undo:
+                x = np.arange(0, self.round)
+            else:
+                x = np.arange(0, self.round + 1)
+            y = np.array(points)
+            if key[:2] == 'p1':
+                color = 'r'
+                symbol = 'o'
+            elif key[:2] == 'p2':
+                color = 'g'
+                symbol = 's'
+            elif key[:2] == 'p3':
+                color = 'b'
+                symbol = 'd'
+            elif key[:2] == 'p4':
+                color = 'y'
+                symbol = 't1'
+            if self.round == 1:
+                self.dataplot.plot(x=x, y=y, name=key[2:], pen=color, symbol=symbol, symbolPen=color, symbolBrush=(55,55,55))
+                #self.legend.addItem(self.dataplot.plot(x=x, y=y, pen=color), key[2:])
+            else:
+                self.dataplot.plot(x=x, y=y, pen=color, symbol=symbol, symbolPen=color, symbolBrush=(55,55,55))
+        if self.round == 1:
+            legendLabelStyle = {'color': '#FFF', 'size': '16pt', 'bold': True}
+            for item in self.legend.items:
+                for single_item in item:
+                    if isinstance(single_item, pg.graphicsItems.LabelItem.LabelItem):
+                        single_item.setText("\t" + single_item.text, **legendLabelStyle)
+        
     def _add_to_player_grid(self, players):
         if players == 1:
             return
@@ -149,6 +213,7 @@ class MyApp(QtGui.QMainWindow, Ui_MainWindow):
             self.game_data['games'][str(self.game_id)].update(players)
         else:
             self.game_data['games'][str(self.game_id)] = players
+        self._setup_plot()
         self.game_started = True
 
     def AddScore(self):
@@ -164,6 +229,7 @@ class MyApp(QtGui.QMainWindow, Ui_MainWindow):
             vp_dict[player] = player_data[1]
         self._update_line_edits()
         self._who_is_winning(vp_dict)
+        self._plot_data()
         if self.winner_vp >= self.winning_score:
             self.EndGame()
         else:
@@ -174,11 +240,15 @@ class MyApp(QtGui.QMainWindow, Ui_MainWindow):
         for i in range(1, self.nbr_players + 1):
             player = "p" + str(i)
             self.game_data['games'][str(self.game_id)]['players'][player]['rounds'].pop(str(round), None)
+        for k, v in self.data_dict.items():
+            v.pop(str(round), None)
         self._update_line_edits(True)
         self.winner_vp = 0
         self.winner_name = None
         self.winner_cards = 0
         self.round = round
+        self.dataplot.clear()
+        self._plot_data(undo=True)
 
     def ResetGame(self):
         reset_widget = QtGui.QWidget()
@@ -291,7 +361,7 @@ class MyApp(QtGui.QMainWindow, Ui_MainWindow):
                 txt = str(le_widget[-1].toPlainText())
                 txt = '\n'.join(txt.splitlines()[:-1])
                 le_widget[-1].setText(txt)
-
+                
 if __name__ == "__main__":
     app = QtGui.QApplication(sys.argv)
     window = MyApp()
