@@ -27,7 +27,7 @@
             },
             "2": {
               "round_vp": 2,
-              "round_vp_total": 4,
+              "round_vp_total": 7,
               "card_income": 3
             }
           }
@@ -49,7 +49,7 @@
             },
             "2": {
               "round_vp": 2,
-              "round_vp_total": 4,
+              "round_vp_total": 6,
               "card_income": 3
             }
           }
@@ -68,11 +68,11 @@
               "card_income": 3
             }
           }
-        },
-        "winner": "Mark",
-        "winner_score": 52,
-        "rounds": 1
-      }
+        }
+      },
+      "winner": "Mark",
+      "winner_score": 52,
+      "rounds": 1
     }
   }
 }
