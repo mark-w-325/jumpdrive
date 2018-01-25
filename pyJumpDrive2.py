@@ -99,8 +99,8 @@ class JumpDrive(QtGui.QMainWindow, Ui_MainWindow):
         self.cb_p4.clear()
         self.cb_p4.addItems(players_lst)
         self.cb_p4.hide()
-        self.sb_p3.setValue(0)
-        self.sb_card_p3.setValue(0)
+        self.sb_p4.setValue(0)
+        self.sb_card_p4.setValue(0)
 
         self.te_p1.clear()
         self.te_p2.hide()
