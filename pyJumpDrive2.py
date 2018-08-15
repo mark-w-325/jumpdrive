@@ -8,6 +8,7 @@ import numpy as np
 from collections import OrderedDict
 import pprint
 
+sys.path.append('/usr/local/lib/python2.7/site-packages')
 pp = pprint.PrettyPrinter(indent=4)
 qtCreatorFile = 'jumpdrive.ui'
 playerFile = 'players.json'
