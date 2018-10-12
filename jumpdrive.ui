@@ -10,7 +10,7 @@
     <x>0</x>
     <y>0</y>
     <width>1292</width>
-    <height>1119</height>
+    <height>776</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -35,8 +35,32 @@
    </property>
    <layout class="QGridLayout" name="gridLayout">
     <item row="0" column="1">
-     <layout class="QGridLayout" name="main_grid">
-      <item row="2" column="0">
+     <layout class="QVBoxLayout" name="verticalLayout">
+      <item>
+       <widget class="QLabel" name="lbl_title">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Preferred" vsizetype="Maximum">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="font">
+         <font>
+          <family>MS Sans Serif</family>
+          <pointsize>16</pointsize>
+          <weight>75</weight>
+          <bold>true</bold>
+         </font>
+        </property>
+        <property name="text">
+         <string>Jump Drive</string>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignCenter</set>
+        </property>
+       </widget>
+      </item>
+      <item>
        <layout class="QHBoxLayout" name="nbr_player_grid" stretch="1,1">
         <property name="spacing">
          <number>15</number>
@@ -79,75 +103,7 @@
         </item>
        </layout>
       </item>
-      <item row="6" column="0">
-       <layout class="QHBoxLayout" name="player_vp_grid">
-        <item>
-         <widget class="QSpinBox" name="sb_p1">
-          <property name="sizePolicy">
-           <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
-            <horstretch>0</horstretch>
-            <verstretch>0</verstretch>
-           </sizepolicy>
-          </property>
-          <property name="font">
-           <font>
-            <family>Meslo LG S for Powerline</family>
-            <pointsize>24</pointsize>
-           </font>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="QSpinBox" name="sb_p2">
-          <property name="sizePolicy">
-           <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
-            <horstretch>0</horstretch>
-            <verstretch>0</verstretch>
-           </sizepolicy>
-          </property>
-          <property name="font">
-           <font>
-            <family>Meslo LG S for Powerline</family>
-            <pointsize>24</pointsize>
-           </font>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="QSpinBox" name="sb_p3">
-          <property name="sizePolicy">
-           <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
-            <horstretch>0</horstretch>
-            <verstretch>0</verstretch>
-           </sizepolicy>
-          </property>
-          <property name="font">
-           <font>
-            <family>Meslo LG S for Powerline</family>
-            <pointsize>24</pointsize>
-           </font>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="QSpinBox" name="sb_p4">
-          <property name="sizePolicy">
-           <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
-            <horstretch>0</horstretch>
-            <verstretch>0</verstretch>
-           </sizepolicy>
-          </property>
-          <property name="font">
-           <font>
-            <family>Meslo LG S for Powerline</family>
-            <pointsize>24</pointsize>
-           </font>
-          </property>
-         </widget>
-        </item>
-       </layout>
-      </item>
-      <item row="3" column="0">
+      <item>
        <layout class="QHBoxLayout" name="player_name_grid">
         <item>
          <widget class="QComboBox" name="cb_p1">
@@ -227,7 +183,7 @@
         </item>
        </layout>
       </item>
-      <item row="4" column="0">
+      <item>
        <layout class="QHBoxLayout" name="player_score_grid">
         <item>
          <widget class="QTextEdit" name="te_p1">
@@ -286,7 +242,171 @@
         </item>
        </layout>
       </item>
-      <item row="9" column="0">
+      <item>
+       <widget class="QLabel" name="lbl_vp">
+        <property name="font">
+         <font>
+          <pointsize>12</pointsize>
+          <weight>75</weight>
+          <bold>true</bold>
+         </font>
+        </property>
+        <property name="text">
+         <string>Victory Points</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <layout class="QHBoxLayout" name="player_vp_grid">
+        <item>
+         <widget class="QSpinBox" name="sb_p1">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="font">
+           <font>
+            <family>Meslo LG S for Powerline</family>
+            <pointsize>24</pointsize>
+           </font>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QSpinBox" name="sb_p2">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="font">
+           <font>
+            <family>Meslo LG S for Powerline</family>
+            <pointsize>24</pointsize>
+           </font>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QSpinBox" name="sb_p3">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="font">
+           <font>
+            <family>Meslo LG S for Powerline</family>
+            <pointsize>24</pointsize>
+           </font>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QSpinBox" name="sb_p4">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="font">
+           <font>
+            <family>Meslo LG S for Powerline</family>
+            <pointsize>24</pointsize>
+           </font>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </item>
+      <item>
+       <widget class="QLabel" name="lbl_card">
+        <property name="font">
+         <font>
+          <pointsize>12</pointsize>
+          <weight>75</weight>
+          <bold>true</bold>
+         </font>
+        </property>
+        <property name="text">
+         <string>Card Income</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <layout class="QHBoxLayout" name="player_card_grid">
+        <item>
+         <widget class="QSpinBox" name="sb_card_p1">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="font">
+           <font>
+            <family>Meslo LG S for Powerline</family>
+            <pointsize>24</pointsize>
+           </font>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QSpinBox" name="sb_card_p2">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="font">
+           <font>
+            <family>Meslo LG S for Powerline</family>
+            <pointsize>24</pointsize>
+           </font>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QSpinBox" name="sb_card_p3">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="font">
+           <font>
+            <family>Meslo LG S for Powerline</family>
+            <pointsize>24</pointsize>
+           </font>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QSpinBox" name="sb_card_p4">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="font">
+           <font>
+            <family>Meslo LG S for Powerline</family>
+            <pointsize>24</pointsize>
+           </font>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </item>
+      <item>
        <layout class="QGridLayout" name="btn_grid">
         <property name="sizeConstraint">
          <enum>QLayout::SetNoConstraint</enum>
@@ -371,143 +491,23 @@
         </item>
        </layout>
       </item>
-      <item row="5" column="0">
-       <widget class="QLabel" name="lbl_vp">
-        <property name="font">
-         <font>
-          <pointsize>12</pointsize>
-          <weight>75</weight>
-          <bold>true</bold>
-         </font>
-        </property>
-        <property name="text">
-         <string>Victory Points</string>
-        </property>
-       </widget>
-      </item>
-      <item row="8" column="0">
-       <layout class="QHBoxLayout" name="player_card_grid">
-        <item>
-         <widget class="QSpinBox" name="sb_card_p1">
-          <property name="sizePolicy">
-           <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
-            <horstretch>0</horstretch>
-            <verstretch>0</verstretch>
-           </sizepolicy>
-          </property>
-          <property name="font">
-           <font>
-            <family>Meslo LG S for Powerline</family>
-            <pointsize>24</pointsize>
-           </font>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="QSpinBox" name="sb_card_p2">
-          <property name="sizePolicy">
-           <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
-            <horstretch>0</horstretch>
-            <verstretch>0</verstretch>
-           </sizepolicy>
-          </property>
-          <property name="font">
-           <font>
-            <family>Meslo LG S for Powerline</family>
-            <pointsize>24</pointsize>
-           </font>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="QSpinBox" name="sb_card_p3">
-          <property name="sizePolicy">
-           <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
-            <horstretch>0</horstretch>
-            <verstretch>0</verstretch>
-           </sizepolicy>
-          </property>
-          <property name="font">
-           <font>
-            <family>Meslo LG S for Powerline</family>
-            <pointsize>24</pointsize>
-           </font>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="QSpinBox" name="sb_card_p4">
-          <property name="sizePolicy">
-           <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
-            <horstretch>0</horstretch>
-            <verstretch>0</verstretch>
-           </sizepolicy>
-          </property>
-          <property name="font">
-           <font>
-            <family>Meslo LG S for Powerline</family>
-            <pointsize>24</pointsize>
-           </font>
-          </property>
-         </widget>
-        </item>
-       </layout>
-      </item>
-      <item row="7" column="0">
-       <widget class="QLabel" name="lbl_card">
-        <property name="font">
-         <font>
-          <pointsize>12</pointsize>
-          <weight>75</weight>
-          <bold>true</bold>
-         </font>
-        </property>
-        <property name="text">
-         <string>Card Income</string>
-        </property>
-       </widget>
-      </item>
-      <item row="1" column="0" colspan="2">
-       <widget class="QLabel" name="lbl_title">
-        <property name="sizePolicy">
-         <sizepolicy hsizetype="Preferred" vsizetype="Maximum">
-          <horstretch>0</horstretch>
-          <verstretch>0</verstretch>
-         </sizepolicy>
-        </property>
-        <property name="font">
-         <font>
-          <family>MS Sans Serif</family>
-          <pointsize>16</pointsize>
-          <weight>75</weight>
-          <bold>true</bold>
-         </font>
-        </property>
-        <property name="text">
-         <string>Jump Drive</string>
-        </property>
-        <property name="alignment">
-         <set>Qt::AlignCenter</set>
-        </property>
-       </widget>
-      </item>
-      <item row="2" column="1" rowspan="8">
-       <widget class="PlotWidget" name="dataplot">
-        <property name="enabled">
-         <bool>true</bool>
-        </property>
-        <property name="font">
-         <font>
-          <pointsize>16</pointsize>
-          <stylestrategy>PreferAntialias</stylestrategy>
-         </font>
-        </property>
-        <property name="interactive">
-         <bool>false</bool>
-        </property>
-       </widget>
-      </item>
      </layout>
+    </item>
+    <item row="1" column="1">
+     <widget class="PlotWidget" name="dataplot">
+      <property name="enabled">
+       <bool>true</bool>
+      </property>
+      <property name="font">
+       <font>
+        <pointsize>16</pointsize>
+        <stylestrategy>PreferAntialias</stylestrategy>
+       </font>
+      </property>
+      <property name="interactive">
+       <bool>false</bool>
+      </property>
+     </widget>
     </item>
    </layout>
   </widget>
@@ -517,7 +517,7 @@
      <x>0</x>
      <y>0</y>
      <width>1292</width>
-     <height>38</height>
+     <height>22</height>
     </rect>
    </property>
   </widget>
